@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { WORKOUT_ACTION_TYPES } from '../../context/WorkoutsContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { useWorkoutContext } from '../../hooks/useWorkoutContext';
 
 const DEFAULT_WORKOUT_DETAILS = {
@@ -13,6 +14,7 @@ const WorkoutForm = () => {
 	const [error, setError] = useState(null);
 	const { dispatch } = useWorkoutContext();
 	const [emptyFields, setEmptyFields] = useState([]);
+	const { user } = useAuthContext();
 
 	const formChangeHandler = ({ target: { name, value } }) => {
 		setWorkoutDetails({ ...workoutDetails, [name]: value });
@@ -21,11 +23,16 @@ const WorkoutForm = () => {
 	const formSubmitHandler = async (e) => {
 		e.preventDefault();
 
+		if (!user) {
+			setError('You must be logged in');
+			return;
+		}
 		const response = await fetch('/api/workouts', {
 			method: 'POST',
 			body: JSON.stringify(workoutDetails),
 			headers: {
 				'Content-Type': 'application/json',
+				Authroization: `Bearer ${user?.token}`,
 			},
 		});
 		const json = await response.json();

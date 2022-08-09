@@ -3,9 +3,9 @@ import { createContext, useReducer } from 'react';
 export const WorkoutsContext = createContext();
 
 export const WORKOUT_ACTION_TYPES = {
-	SET_WORKOUT: 'SET_WORKOUT',
-	CREATE_WORKOUT: 'CREATE_WORKOUT',
-	DELETE_WORKOUT: 'DELETE_WORKOUT',
+	SET_WORKOUT: 'WORKOUT/SET_WORKOUT',
+	CREATE_WORKOUT: 'WORKOUT/CREATE_WORKOUT',
+	DELETE_WORKOUT: 'WORKOUT/DELETE_WORKOUT',
 };
 
 export const workoutsReducer = (state, action) => {
